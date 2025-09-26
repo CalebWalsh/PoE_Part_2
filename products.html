@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--link css file to the html file-->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <title>Products • Dagbreek Spar</title>
+  <meta name="description" content="Fresh groceries and quality goods at Dagbreek Spar — add items to your cart and checkout easily.">
+</head>
+<body>
+  <header>
+    <h1>Dagbreek Spar</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about us.html">About Us</a> |
+      <a href="products.html">Products</a> |
+      <a href="order.html">Order</a> |
+      <a href="contact us.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Our Products</h2>
+
+    <!-- Product Example -->
+    <section>
+      <img src="images/Kettle.jpg" alt="Kettle" width="200">
+      <h3>Glass Cover Kettle</h3>
+      <p>Brand new - quick boiling kettle on special.</p>
+      <p><strong>R199.99</strong></p>
+      <button onclick="addToCart('Glass Cover Kettle - R199.99')">Add to Cart</button>
+    </section>
+
+    <section>
+      <img src="images/Coffee Machine.jpg" alt="Coffee Machine" width="200">
+      <h3>Coffee Machine</h3>
+      <p>Premium quality, perfect for home or office.</p>
+      <p><strong>R249.99</strong></p>
+      <button onclick="addToCart('Coffee Machine - R249.99')">Add to Cart</button>
+    </section>
+
+    <section>
+      <img src="images/Drumsticks.jpg" alt="Drumsticks" width="200">
+      <h3>Drumsticks</h3>
+      <p>Fresh and affordable.</p>
+      <p><strong>R54.99</strong></p>
+      <button onclick="addToCart('Drumsticks - R54.99')">Add to Cart</button>
+    </section>
+  </main>
+
+  <!-- Floating Cart -->
+  <aside style="position:fixed; top:20px; right:20px; border:1px solid #ccc; padding:10px; background:#fff;">
+    <h4>🛒 Cart</h4>
+    <ul id="cartItems" style="list-style:none; padding-left:0;"></ul>
+    <button onclick="checkout()">Checkout</button>
+  </aside>
+
+  <footer>
+    <p>© 2025 Dagbreek Spar • All rights reserved</p>
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(item) {
+      cart.push(item);
+      localStorage.setItem('orderList', cart.join('\n'));
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('orderList', cart.join('\n'));
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cartItems');
+      cartList.innerHTML = '';
+      cart.forEach((item, i) => {
+        const li = document.createElement('li');
+        li.textContent = item + " ";
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = "❌";
+        removeBtn.onclick = () => removeFromCart(i);
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
+      });
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+      if (confirm("Do you want to complete your order?")) {
+        window.location.href = 'order.html';
+      }
+    }
+
+    // Load previous cart from storage if present
+    window.onload = function() {
+      const saved = localStorage.getItem('orderList');
+      if (saved) {
+        cart = saved.split('\n').filter(Boolean);
+        renderCart();
+      }
+    };
+  </script>
+</body>
+</html>

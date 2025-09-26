@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--link css file to the html file-->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <title>Order • Dagbreek Spar</title>
+</head>
+<body>
+  <header>
+    <h1>Dagbreek Spar</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about us.html">About Us</a> |
+      <a href="products.html">Products</a> |
+      <a href="order.html">Order</a> |
+      <a href="contact us.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Place Your Order</h2>
+    <form id="orderForm">
+      <label>Full Name: <input type="text" id="name"></label><br>
+      <label>Email: <input type="email" id="email"></label><br>
+      <label>Phone: <input type="tel" id="phone"></label><br>
+
+      <label>Order Items:
+        <textarea id="orderItems"></textarea>
+      </label><br>
+
+      <label>Delivery or Collection:
+        <select id="method">
+          <option value="">-- Select --</option>
+          <option value="delivery">Delivery</option>
+          <option value="collection">Collection</option>
+        </select>
+      </label><br>
+
+      <!-- Hidden Delivery Address field -->
+      <div id="addressField" style="display:none;">
+        <label>Delivery Address: <input type="text" id="address"></label><br>
+      </div>
+
+      <input type="submit" value="Confirm Order">
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 Dagbreek Spar • All rights reserved</p>
+  </footer>
+
+  <script>
+    // Load saved order
+    document.getElementById('orderItems').value = localStorage.getItem('orderList') || '';
+
+    // Show/hide address based on method
+    document.getElementById('method').addEventListener('change', function() {
+      document.getElementById('addressField').style.display = 
+        this.value === 'delivery' ? 'block' : 'none';
+    });
+
+    // Validate form on submit
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const items = document.getElementById('orderItems').value.trim();
+      const method = document.getElementById('method').value;
+      const address = document.getElementById('address').value.trim();
+
+      if (!name || !email || !phone || !items || !method || (method === 'delivery' && !address)) {
+        alert("Ensure all fields are filled in");
+        return;
+      }
+
+      if (method === 'delivery') {
+        alert("Thank you! Your order will be delivered shortly to: " + address);
+      } else {
+        alert("Thank you! Your order will be ready for collection.");
+      }
+
+      localStorage.removeItem('orderList');
+      this.reset();
+      document.getElementById('addressField').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
+<
+
